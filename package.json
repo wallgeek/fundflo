@@ -1,0 +1,23 @@
+{
+  "name": "fundflo",
+  "version": "1.0.0",
+  "description": "Fundflo round 2 interview project",
+  "main": "src/server.js",
+  "scripts": {
+    "test": "jest",
+    "dev": "node src/models/index; node src/server",
+    "prod": "NODE_ENV=production node src/server"
+  },
+  "author": "Abhishek Khare",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "joi": "^17.13.1",
+    "pg": "^8.12.0",
+    "winston": "^3.13.0"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0"
+  }
+}
