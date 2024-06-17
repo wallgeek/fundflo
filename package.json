@@ -6,7 +6,8 @@
   "scripts": {
     "test": "jest",
     "dev": "node src/models/index; node src/server",
-    "prod": "node src/models/index; NODE_ENV=production node src/server"
+    "prod": "node src/models/index; NODE_ENV=production node src/server",
+    "present": "NODE_ENV=production node src/server"
   },
   "author": "Abhishek Khare",
   "license": "ISC",

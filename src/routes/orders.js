@@ -19,4 +19,8 @@ Router
 .route("/:orderId/reject")
 .post(Auth, Orders.rejectOrder)
 
+Router
+.route("/:orderId/approvals")
+.get(Auth, Orders.getApprovals)
+
 module.exports = Router

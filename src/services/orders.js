@@ -1,7 +1,7 @@
 const DB = require("../utils/db")
 const { GeneralError } = require("../errors/custom")
 const ErrorMessages = require("../errors/messages")
-const statusCodes = require("../utils/status-codes")
+const StatusCodes = require("../utils/status-codes")
 
 const GetModeratorId = async function(user_id){
     const result = await DB.query(`
@@ -36,7 +36,7 @@ const GetOrderStatus = async function(order_id){
         [order_id]
     )
 
-    if(orderRes.rows.length === 0) throw new GeneralError(ErrorMessages.ORDER_DOES_NOT_EXIST, statusCodes.NOT_FOUND)
+    if(orderRes.rows.length === 0) throw new GeneralError(ErrorMessages.ORDER_DOES_NOT_EXIST, StatusCodes.NOT_FOUND)
     else return orderRes.rows[0].status
 }
 
@@ -151,21 +151,33 @@ module.exports.reject = async function(user_id, order_id) {
 module.exports.get = async function(user_id, order_id) {
     const orderRes = await DB.query(`
     SELECT
-        o.id AS order_id,
-        o.amount,
-        o.time,
-        i.name AS item_name,
-        u.name as user_name
-    FROM
-        orders o
-    JOIN
-        items i ON o.item_id = i.id
-    JOIN
-        users u ON o.user_id = u.id
+    o.id AS order_id,
+    o.amount,
+    o.time,
+    i.name AS item_name,
+    u.name as user_name
+    FROM orders o
+    JOIN items i ON o.item_id = i.id
+    JOIN users u ON o.user_id = u.id
     WHERE o.user_id = $1 AND o.id = $2`, 
     [user_id, order_id]
     )
 
-    if(orderRes.rows.length === 0) throw new GeneralError(ErrorMessages.ORDER_DOES_NOT_EXIST, statusCodes.NOT_FOUND)
+    if(orderRes.rows.length === 0) throw new GeneralError(ErrorMessages.ORDER_DOES_NOT_EXIST, StatusCodes.NOT_FOUND)
     else return orderRes.rows[0]
+}
+
+module.exports.approvals = async function(order_id) {
+    const orderRes = await DB.query(`
+    SELECT
+    a.order_id,
+    u.name AS moderator_name
+    FROM approvals a
+    JOIN moderators m ON a.moderator_id = m.id
+    JOIN users u ON m.user_id = u.id
+    WHERE a.order_id = $1;`, 
+    [order_id]
+    )
+
+    return orderRes.rows[0]
 }

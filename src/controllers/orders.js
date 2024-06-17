@@ -62,3 +62,15 @@ module.exports.getOrder = async function(req, res, next) {
         next(err)
     }
 }
+
+module.exports.getApprovals = async function(req, res, next) {
+    const {orderId} = req.params
+
+    try {
+        const result = await OrderService.approvals(parseInt(orderId))
+
+        return res.json(result)
+    }catch(err){
+        next(err)
+    }
+}
