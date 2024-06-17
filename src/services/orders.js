@@ -1,7 +1,6 @@
 const DB = require("../utils/db")
 const { GeneralError } = require("../errors/custom")
 const ErrorMessages = require("../errors/messages")
-const StatusCodes = require("../utils/status-codes")
 const statusCodes = require("../utils/status-codes")
 
 const GetModeratorId = async function(user_id){

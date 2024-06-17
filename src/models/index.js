@@ -148,7 +148,7 @@ const fillData = async function () {
 
     await dropTables()
     await createTables()
-    await fillData()
+    // await fillData()
 
     process.exit(1)
 })()

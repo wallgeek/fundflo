@@ -16,13 +16,14 @@ module.exports = async function(err, req, res, next){
         res.sendStatus(statusCode)
     }else if(NODE_ENV !== "production"){
         res.status(statusCode).json({
+            statusCode,
             message: err.message,
             stack: err.stack
         })
     }else if (statusCode === StatusCodes.INTERNAL_SERVER_ERROR || (err && !err.message)) {
         res.sendStatus(statusCode)
     }else {
-        res.status(statusCode).send(err.message)
+        res.status(statusCode).json({statusCode, message: err.message})
     }
     
     InfoLogger(err.message)
